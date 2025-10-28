@@ -22,11 +22,22 @@ data = [{"name": "hello", "views": 300, "likes": 22},
 
 for i in range(len(data)):
     response = requests.put(BASE + "video/" + str(i), data[i])
-    print(response.json())
+    print(f"Response status: {response.status_code}")
+    if response.status_code == 201:  # Created successfully
+        print(f"Video {i} created:", response.json())
+    else:
+        print(f"Error creating video {i}: {response.json()}")
 
-put_response = requests.get(BASE + "video/6")
-print(f"GET request sent to {BASE}/videos/(video_id) to get details of a video having the given video id")
-print(put_response.json())
+input()
+patch_response = requests.patch(BASE + "video/2", {"likes":99})
+print(patch_response.json())
+
+get_response = requests.get(BASE + "video/2")  # Try getting the first video
+print(f"\nGET request sent to {BASE}/video/0 to get details of the first video")
+if get_response.status_code == 200:
+    print("Video details:", get_response.json())
+else:
+    print(f"Error getting video: {get_response.text}")
 # input()
 
 # delete_response = requests.delete(BASE + "video/0")
